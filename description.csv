@@ -1,0 +1,29 @@
+﻿指标名称,含义说明,计算公式,代码来源文件,异步接口支持,agentAnswer接口支持
+总响应时间(time_cost),从请求发出到完全结束的总耗时,time_cost = end_ts - start_ts,client/*,是,是
+平均响应时间(avg_latency_ms),所有总耗时取平均值,avg = mean(time_cost_i * 1000),recorder.py,是,是
+最小响应时间(min_latency_ms),所有请求的最小耗时,min(latencies),recorder.py,是,是
+最大响应时间(max_latency_ms),所有请求的最大耗时,max(latencies),recorder.py,是,是
+P50响应时间,P50百分位响应时延,percentile(50),recorder.py,是,可选
+P90响应时间,P90百分位响应时延,percentile(90),recorder.py,是,可选
+P95响应时间,P95百分位响应时延,percentile(95),recorder.py,是,可选
+P99响应时间,P99百分位响应时延,percentile(99),recorder.py,是,可选
+TTFB（单次请求）,首字节时间,ttfb = first_chunk_ts - start_ts,client/*,是,是
+平均首字节时间(avg_ttfb_ms),所有请求的平均首字节时间(ms),avg = mean(ttfb_i * 1000),recorder.py,是,是
+流式持续时间(stream_cost),从首包到最后一个chunk的时长,stream_cost = last_ts - first_ts,client/*,是,是
+chunk数量(chunks),收到的流式分块数,count(chunk),client/*,是,是
+chunk大小(chunk_sizes),每个chunk的字节大小,len(chunk_i),client/*,是,是
+chunk间隔(chunk_intervals),两个chunk之间的时间差,ts[i] - ts[i-1],client/*,是,是
+平均chunk大小(avg_chunk_bytes),所有chunk大小平均值,avg(chunk_sizes),recorder.py,是,是
+平均chunk间隔(avg_chunk_interval_ms),chunk间隔转毫秒并取平均,avg(chunk_intervals * 1000),recorder.py,是,是
+实时TPS,当前一秒内的吞吐量,tps = total / elapsed,runner.py,是,是
+峰值TPS(peak_tps),运行中出现过的最大TPS,"peak = max(peak, tps)",runner.py,是,是
+平均TPS(avg_tps),总请求数 / 总运行时间,avg_tps = total_requests / duration,recorder.py,是,是
+CPU平均占用(avg_cpu),系统CPU平均占用率,mean(cpu_samples),runner.py,是,是
+内存平均占用(avg_mem),系统内存平均占用率,mean(mem_samples),runner.py,是,是
+上行带宽(avg_net_up_kb),KB/s,(sent_now - sent_last)/1024,runner.py,是,是
+下行带宽(avg_net_down_kb),KB/s,(recv_now - recv_last)/1024,runner.py,是,是
+成功数(success),返回码200的请求数,count(ok==True),runner.py / recorder.py,是,是
+失败数(fail),失败请求数,total - success,runner.py / recorder.py,是,是
+预览内容(preview),stream前200字符,preview[:200],client/*,是,是
+URL记录,本次请求的接口地址,直接记录 url,client/*,是,是
+状态码记录(status),HTTP响应状态码,resp.status_code,client/*,是,是
